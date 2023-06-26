@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import React from "react";
 import { buttonVariants } from "./ui/Button";
@@ -16,9 +18,9 @@ export const Navbar = () => {
 
         {/* search bar */}
 
-        <button className={buttonVariants()} onClick={() => signIn()}>
+        <Link href={"/sign-in"} className={buttonVariants()}>
           Sign In
-        </button>
+        </Link>
       </div>
     </div>
   );

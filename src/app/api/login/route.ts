@@ -40,7 +40,7 @@ export async function POST(request: Request) {
     const user = response.data;
 
     if (user) {
-      return NextResponse.json("deu certo!", { status: 200 });
+      return NextResponse.json(user, { status: 200 });
     }
   } catch (error) {
     return NextResponse.json("não autorizado", { status: 401 });

@@ -3,9 +3,6 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions: NextAuthOptions = {
-  session: {
-    strategy: "jwt",
-  },
   providers: [
     CredentialsProvider({
       name: "keycloak-credentials",
@@ -23,11 +20,5 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  callbacks: {
-    async session({ token, session }) {
-      console.log(`token: ${token}, session: ${session}`);
-
-      return session;
-    },
-  },
+  secret: process.env.NEXTAUTH_SECRET,
 };
