@@ -3,7 +3,7 @@
 import Link from "next/link";
 import React from "react";
 import { buttonVariants } from "./ui/Button";
-import { signIn } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 
 export const Navbar = () => {
   return (
@@ -17,10 +17,17 @@ export const Navbar = () => {
         </Link>
 
         {/* search bar */}
-
-        <Link href={"/sign-in"} className={buttonVariants()}>
-          Sign In
-        </Link>
+        <div className="flex gap-3">
+          <Link href={"/sign-in"} className={buttonVariants()}>
+            Sign In
+          </Link>
+          <button
+            onClick={() => signOut({ callbackUrl: "/sign-in" })}
+            className={buttonVariants()}
+          >
+            Sign Out
+          </button>
+        </div>
       </div>
     </div>
   );

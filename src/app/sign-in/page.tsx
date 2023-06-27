@@ -11,21 +11,23 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
-    try {
-      event.preventDefault();
+  const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-      const result = await axios.post("/api/login", {
-        username,
-        password,
-      });
-      alert("deu certo!");
+    signIn("credentials", {
+      username,
+      password,
+      redirect: false,
+    }).then((callback) => {
+      if (callback?.ok) {
+        alert("Login successful");
+        router.push("/");
+      }
 
-      const user = result.data;
-      return user;
-    } catch (error) {
-      alert(error);
-    }
+      if (callback?.error) {
+        alert("Error: " + callback.error);
+      }
+    });
   };
 
   return (
@@ -39,7 +41,7 @@ export default function LoginPage() {
             name="username"
             value={username}
             onChange={(event) => setUsername(event.target.value)}
-            className="border rounded p-2"
+            className="border rounded text-zinc-700 p-2"
           />
         </label>
         <label className="font-bold mb-2">
@@ -49,7 +51,7 @@ export default function LoginPage() {
             name="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            className="border rounded p-2"
+            className="border rounded text-zinc-700 p-2"
           />
         </label>
         <button
