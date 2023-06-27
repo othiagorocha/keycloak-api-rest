@@ -4,6 +4,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import result from "postcss/lib/result";
 
 export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
@@ -11,23 +12,24 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-  const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    signIn("credentials", {
+    const result = await signIn("credentials", {
       username,
       password,
       redirect: false,
-    }).then((callback) => {
-      if (callback?.ok) {
-        alert("Login successful");
-        router.push("/");
-      }
-
-      if (callback?.error) {
-        alert("Error: " + callback.error);
-      }
     });
+
+    console.log(result);
+
+    if (!result?.error) {
+      alert("Logado com sucesso!");
+    }
+
+    if (result?.error) {
+      alert("Credenciais inválidas: " + result.error);
+    }
   };
 
   return (
